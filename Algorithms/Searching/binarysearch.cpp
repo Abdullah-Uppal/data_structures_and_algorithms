@@ -1,6 +1,6 @@
 #include <iostream>
 
-int binarysearch(int element, int arr[], int n);
+int binarysearch(int element, int arr[], int start, int end);
 int recursivebinarysearch(int element, int arr[], int start, int end);
 
 int main() {
@@ -15,7 +15,7 @@ int main() {
         std::cout << "Element not found\n";  
 
     tosearch = 54;
-    index = binarysearch(tosearch, arr, SIZE);
+    index = binarysearch(tosearch, arr, 0, SIZE-1);
     std::cout << "(iterative) ";
     if (index > -1)
         std::cout << "Element " << tosearch <<  " found at: " << index << std::endl;
@@ -24,9 +24,7 @@ int main() {
     return 0;
 }
 
-int binarysearch(int element, int arr[], int n) {
-    int start = 0;
-    int end = n-1;
+int binarysearch(int element, int arr[], int start, int end) {
     while (start<=end) {
         int mid = (end+start)/2;
         if (arr[mid] == element) {
