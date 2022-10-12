@@ -6,50 +6,78 @@ class Node {
 public:
     int data;
     Node* next;
+    Node()  { data = 0; next = NULL; }
+    Node(int d) { data = d; next = NULL; }
+    Node(int d, Node* n) { data = d; next = n; }
+    // copy constructor
+    Node(const Node& n) { data = n.data; next = n.next; }
+    // destructor
+    ~Node() {}
 };
 
 // Stack class in c++
 class Stack {
 private:
     Node* top;
+    int elementCount;
 
 public:
-    Stack() { top = NULL; }
+    Stack() { top = NULL; elementCount = 0;}
+    // copy constructor
+    Stack(const Stack& s);
     ~Stack();
     void push(int x);
     int pop();
+    int peek();
+    void clear();
     void Display();
     bool isEmpty();
+    int size();
 };
+
+// copy constructor; deep copy
+Stack::Stack(const Stack& s) {
+    Node* p = s.top;
+    Node* n = NULL;
+    Node* tail = NULL;
+    while (p) {
+        n = new Node(p->data);
+        // if it is the first node, update top
+        if (tail == NULL) {
+            top = tail = n;
+        } else {
+            // add at end
+            tail->next = n;
+        }
+        // update tail
+        tail = n;
+        p = p->next;
+    }
+
+    elementCount = s.elementCount;
+}
 
 // Destructor
 Stack::~Stack() {
-    Node* p = top;
-    while (top) {
-        top = top->next;
-        delete p;
-        p = top;
-    }
+    clear();
 }
 
 // isEmpty() function in c++
 bool Stack::isEmpty() {
-    if (top == NULL)
-        return true;
-    else
-        return false;
+    return elementCount == 0;
+    // or 
+    // return top == NULL;
 }
 
 
 // Push function in c++
 void Stack::push(int x) {
-    Node* t = new Node;
+    Node* t = new Node(x, top);
     if (t == NULL)
         cout << "Stack is full" << endl;
     else {
-        t->data = x;
-        t->next = top;
         top = t;
+        ++elementCount;
     }
 }
 
@@ -63,8 +91,27 @@ int Stack::pop() {
         Node* t = top;
         top = top->next;
         delete t;
+        --elementCount;
     }
     return x;
+}
+
+// peek function for stack
+int Stack::peek() {
+    if (top != NULL)
+        return top->data;
+    else
+        return -1;
+}
+
+void Stack::clear() {
+    Node* p = top;
+    while (top) {
+        top = top->next;
+        delete p;
+        p = top;
+    }
+    elementCount = 0;
 }
 
 // Display function in c++
@@ -77,25 +124,37 @@ void Stack::Display() {
     cout << endl;
 }
 
+// size function 
+int Stack::size() {
+    return elementCount;
+}
+
 /**
 // Main function in c++
 int main() {
-    Stack stk;
+    Stack *stk = new Stack();
     cout<<"Push 10"<<endl;
-    stk.push(10);
+    stk->push(10);
     cout<<"Push 20"<<endl;
-    stk.push(20);
+    stk->push(20);
     cout<<"Push 30"<<endl;
-    stk.push(30);
+    stk->push(30);
     cout << "Stack: ";
-    stk.Display();
+    stk->Display();
 
     cout<<"Popping elements from the stack "<<endl;
 
-    while (!stk.isEmpty()) {
-        cout << "Popped " << stk.pop() << " from stack" << endl;
+    cout << "Peeking the stack " << stk->peek() << endl;
+    Stack stk2 = *stk; // copy constructor called
+    stk->clear(); // clear the second list
+    cout << "After clearing the stack, size is " << stk->size() << endl;
+
+    cout << "Stack 2: ";
+    while (!stk2.isEmpty()) {
+        cout << "Popped " << stk2.pop() << " from stack" << endl;
     }
-    stk.Display();
+    stk2.Display();
+
     return 0;
 }
-**/
+// **/
