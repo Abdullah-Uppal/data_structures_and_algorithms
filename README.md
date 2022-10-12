@@ -65,7 +65,6 @@ Name: Here goes your name
 
 Username: Here goes your GitHub username
 
-Approach: It should be concise your solution approach to solve the problem
 ```
 7. Once you have done all this, commit your changes to GitHub. You can do this with the following commands. Make sure you execute them in the precise order one after another in your terminal.
 ```sh
