@@ -31,6 +31,7 @@ public:
     bool isEmpty();
     int size();
     void clear();
+    void reverse();
 };
 
 // copy constructor; deep copy
@@ -125,6 +126,20 @@ void Queue::clear() {
     elementCount = 0;
 }
 
+// reverse function
+void Queue::reverse() {
+    Node *n = front;
+    Node *temp = NULL;
+    rear = front;
+    front = NULL;
+    while (n){
+        temp = n->next;
+        n->next = front;
+        front = n;
+        n = temp;
+    }
+}
+
 /**
 // Main function
 int main() {
@@ -141,6 +156,13 @@ int main() {
     Queue q2 = q;
     cout<<"Display Queue 2"<<endl;
     q2.Display();
+    
+    q2.reverse();
+    cout << "Queue 2 reversed: " << endl;
+    q2.Display();
+    
+    
+    cout << "queue has been reversed" << endl;
 
     cout<<"Popping elements from the stack "<<endl;
 
