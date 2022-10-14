@@ -30,6 +30,7 @@ public:
     int pop();
     int peek();
     void clear();
+    void reverse();
     void Display();
     bool isEmpty();
     int size();
@@ -114,6 +115,19 @@ void Stack::clear() {
     elementCount = 0;
 }
 
+// reverse function for stack
+void Stack::reverse() {
+    Node *n = top;
+    Node *temp = NULL;
+    top = NULL;
+    while (n){
+        temp = n->next;
+        n->next = top;
+        top = n;
+        n = temp;
+    }
+}
+
 // Display function in c++
 void Stack::Display() {
     Node* p = top;
@@ -140,6 +154,10 @@ int main() {
     cout<<"Push 30"<<endl;
     stk->push(30);
     cout << "Stack: ";
+    stk->Display();
+    // reverse the stack
+    stk->reverse();
+    cout << "reversed stack is : ";
     stk->Display();
 
     cout<<"Popping elements from the stack "<<endl;
