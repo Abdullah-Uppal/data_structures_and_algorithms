@@ -1,23 +1,25 @@
 #include <iostream>
 using namespace std;
 
-// Node class
+// Node classzz
+template<class T>
 class Node {
 public:
-    int data;
-    Node* next;
+    T data;
+    Node<T>* next;
     // constructors
     Node() { data = 0; next = NULL; }
-    Node(int d) { data = d; next = NULL; }
-    Node(int d, Node* n) { data = d; next = n; }
+    Node(T d) { data = d; next = NULL; }
+    Node(T d, Node<T>* n) { data = d; next = n; }
     ~Node() { }
 };
 
 // Stack class
+template<class T>
 class Queue {
 private:
-    Node* front;
-    Node* rear;
+    Node<T>* front;
+    Node<T>* rear;
     int elementCount;
 
 public:
@@ -35,10 +37,11 @@ public:
 };
 
 // copy constructor; deep copy
-Queue::Queue(const Queue& q) {
+template<class T>
+Queue<T>::Queue(const Queue<T>& q) {
     
-    Node *p = q.front;
-    Node *n = NULL;
+    Node<T> *p = q.front;
+    Node<T> *n = NULL;
     front = rear = NULL;
     while (p) {
         n = new Node(p->data);
@@ -58,20 +61,23 @@ Queue::Queue(const Queue& q) {
 }
 
 // Destructor
-Queue::~Queue() {
+template<class T>
+Queue<T>::~Queue() {
     clear();
 }
 
 // isEmpty() function
-bool Queue::isEmpty() {
+template<class T>
+bool Queue<T>::isEmpty() {
     return elementCount == 0;
     // or 
     // return front == NULL;
 }
 
 // enqueue function
-void Queue::enqueue(int x) {
-    Node* t = new Node (x);
+template<class T>
+void Queue<T>::enqueue(int x) {
+    Node<T>* t = new Node (x);
     if (t == NULL)
         cout << "Queue is full" << endl;
     else {
@@ -86,13 +92,14 @@ void Queue::enqueue(int x) {
 }
 
 // dequeue function
-int Queue::dequeue() {
+template<class T>
+int Queue<T>::dequeue() {
     int x = -1;
     if (front == NULL)
         cout << "Queue is Empty" << endl;
     else {
         x = front->data;
-        Node* t = front;
+        Node<T>* t = front;
         front = front->next;
         delete t;
         --elementCount;
@@ -101,8 +108,9 @@ int Queue::dequeue() {
 }
 
 // Display function
-void Queue::Display() {
-    Node* p = front;
+template<class T>
+void Queue<T>::Display() {
+    Node<T>* p = front;
     while (p) {
         cout << p->data << " ";
         p = p->next;
@@ -110,13 +118,15 @@ void Queue::Display() {
     cout << endl;
 }
 
-int Queue::size() {
+template<class T>
+int Queue<T>::size() {
     return elementCount;
 }
 
 // clear function
-void Queue::clear() {
-    Node* p = front;
+template<class T>
+void Queue<T>::clear() {
+    Node<T>* p = front;
     while (front) {
         front = front->next;
         delete p;
@@ -127,9 +137,10 @@ void Queue::clear() {
 }
 
 // reverse function
-void Queue::reverse() {
-    Node *n = front;
-    Node *temp = NULL;
+template<class T>
+void Queue<T>::reverse() {
+    Node<T> *n = front;
+    Node<T> *temp = NULL;
     rear = front;
     front = NULL;
     while (n){
@@ -143,7 +154,7 @@ void Queue::reverse() {
 /**
 // Main function
 int main() {
-    Queue q;
+    Queue<int> q;
     cout<<"Queue 10"<<endl;
     q.enqueue(10);
     cout<<"Queue 20"<<endl;
@@ -153,7 +164,7 @@ int main() {
 
     cout<<"Display Queue 1"<<endl;
     q.Display();
-    Queue q2 = q;
+    Queue<int> q2 = q;
     cout<<"Display Queue 2"<<endl;
     q2.Display();
     
@@ -171,4 +182,4 @@ int main() {
     }
     return 0;
 }
-// **/
+**/
