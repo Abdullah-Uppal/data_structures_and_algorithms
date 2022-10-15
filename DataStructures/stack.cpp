@@ -2,33 +2,35 @@
 using namespace std;
 
 // Node class in c++
+template<class T>
 class Node {
 public:
-    int data;
-    Node* next;
+    T data;
+    Node<T>* next;
     Node()  { data = 0; next = NULL; }
-    Node(int d) { data = d; next = NULL; }
-    Node(int d, Node* n) { data = d; next = n; }
+    Node(T d) { data = d; next = NULL; }
+    Node(T d, Node* n) { data = d; next = n; }
     // copy constructor
-    Node(const Node& n) { data = n.data; next = n.next; }
+    Node(const Node<T>& n) { data = n.data; next = n.next; }
     // destructor
     ~Node() {}
 };
 
 // Stack class in c++
+template<class T>
 class Stack {
 private:
-    Node* top;
+    Node<T>* top;
     int elementCount;
 
 public:
     Stack() { top = NULL; elementCount = 0;}
     // copy constructor
-    Stack(const Stack& s);
+    Stack(const Stack<T>& s);
     ~Stack();
-    void push(int x);
-    int pop();
-    int peek();
+    void push(T x);
+    T pop();
+    T peek();
     void clear();
     void reverse();
     void Display();
@@ -37,12 +39,13 @@ public:
 };
 
 // copy constructor; deep copy
-Stack::Stack(const Stack& s) {
-    Node* p = s.top;
-    Node* n = NULL;
-    Node* tail = NULL;
+template<class T>
+Stack<T>::Stack(const Stack& s) {
+    Node<T>* p = s.top;
+    Node<T>* n = NULL;
+    Node<T>* tail = NULL;
     while (p) {
-        n = new Node(p->data);
+        n = new Node<T>(p->data);
         // if it is the first node, update top
         if (tail == NULL) {
             top = tail = n;
@@ -59,12 +62,14 @@ Stack::Stack(const Stack& s) {
 }
 
 // Destructor
-Stack::~Stack() {
+template<class T>
+Stack<T>::~Stack() {
     clear();
 }
 
 // isEmpty() function in c++
-bool Stack::isEmpty() {
+template<class T>
+bool Stack<T>::isEmpty() {
     return elementCount == 0;
     // or 
     // return top == NULL;
@@ -72,8 +77,9 @@ bool Stack::isEmpty() {
 
 
 // Push function in c++
-void Stack::push(int x) {
-    Node* t = new Node(x, top);
+template<class T>
+void Stack<T>::push(T x) {
+    Node<T>* t = new Node<T>(x, top);
     if (t == NULL)
         cout << "Stack is full" << endl;
     else {
@@ -83,13 +89,16 @@ void Stack::push(int x) {
 }
 
 // Pop function in c++
-int Stack::pop() {
-    int x = -1;
-    if (top == NULL)
+template<class T>
+T Stack<T>::pop() {
+    T x;
+    if (top == NULL) {
         cout << "Stack is Empty" << endl;
+        return T();
+    }
     else {
         x = top->data;
-        Node* t = top;
+        Node<T>* t = top;
         top = top->next;
         delete t;
         --elementCount;
@@ -98,15 +107,17 @@ int Stack::pop() {
 }
 
 // peek function for stack
-int Stack::peek() {
+template<class T>
+T Stack<T>::peek() {
     if (top != NULL)
         return top->data;
     else
-        return -1;
+        return T();
 }
 
-void Stack::clear() {
-    Node* p = top;
+template<class T>
+void Stack<T>::clear() {
+    Node<T>* p = top;
     while (top) {
         top = top->next;
         delete p;
@@ -116,9 +127,10 @@ void Stack::clear() {
 }
 
 // reverse function for stack
-void Stack::reverse() {
-    Node *n = top;
-    Node *temp = NULL;
+template<class T>
+void Stack<T>::reverse() {
+    Node<T> *n = top;
+    Node<T> *temp = NULL;
     top = NULL;
     while (n){
         temp = n->next;
@@ -129,8 +141,9 @@ void Stack::reverse() {
 }
 
 // Display function in c++
-void Stack::Display() {
-    Node* p = top;
+template<class T>
+void Stack<T>::Display() {
+    Node<T>* p = top;
     while (p != NULL) {
         cout << p->data << " ";
         p = p->next;
@@ -139,14 +152,15 @@ void Stack::Display() {
 }
 
 // size function 
-int Stack::size() {
+template<class T>
+int Stack<T>::size() {
     return elementCount;
 }
 
 /**
 // Main function in c++
 int main() {
-    Stack *stk = new Stack();
+    Stack<int> *stk = new Stack<int>();
     cout<<"Push 10"<<endl;
     stk->push(10);
     cout<<"Push 20"<<endl;
@@ -163,7 +177,7 @@ int main() {
     cout<<"Popping elements from the stack "<<endl;
 
     cout << "Peeking the stack " << stk->peek() << endl;
-    Stack stk2 = *stk; // copy constructor called
+    Stack<int> stk2 = *stk; // copy constructor called
     stk->clear(); // clear the second list
     cout << "After clearing the stack, size is " << stk->size() << endl;
 
@@ -175,4 +189,4 @@ int main() {
 
     return 0;
 }
-// **/
+**/
